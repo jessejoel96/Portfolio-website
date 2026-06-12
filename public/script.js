@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollEffects();
   initYear();
   initSmoothScroll();
+  initOfferPopup();
 });
 
 function initNav() {
@@ -177,10 +178,84 @@ function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
       const href = this.getAttribute('href');
-      if (href === '#') return;
+      if (href === '#' || this.hasAttribute('data-offer-trigger')) return;
       e.preventDefault();
       const target = document.querySelector(href);
       target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+}
+
+function initOfferPopup() {
+  const popup = document.getElementById('offerPopup');
+  const fab = document.getElementById('offerFab');
+  if (!popup) return;
+
+  const STORAGE_KEY = 'navari-offer-dismissed';
+  const DISMISS_DAYS = 7;
+  const AUTO_DELAY_MS = 11000;
+
+  const isDismissed = () => {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const dismissedAt = Number(raw);
+    if (Number.isNaN(dismissedAt)) return false;
+    return Date.now() - dismissedAt < DISMISS_DAYS * 24 * 60 * 60 * 1000;
+  };
+
+  const rememberDismissal = () => {
+    localStorage.setItem(STORAGE_KEY, String(Date.now()));
+  };
+
+  const showFab = () => {
+    if (fab) fab.hidden = false;
+  };
+
+  const hideFab = () => {
+    if (fab) fab.hidden = true;
+  };
+
+  const openPopup = () => {
+    popup.classList.add('is-open');
+    popup.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('offer-popup-open');
+    hideFab();
+    popup.querySelector('.offer-popup-close')?.focus();
+  };
+
+  const closePopup = (remember = true) => {
+    popup.classList.remove('is-open');
+    popup.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('offer-popup-open');
+    if (remember) {
+      rememberDismissal();
+      showFab();
+    }
+  };
+
+  popup.querySelectorAll('[data-offer-close]').forEach((el) => {
+    el.addEventListener('click', () => closePopup(true));
+  });
+
+  document.querySelectorAll('[data-offer-trigger]').forEach((trigger) => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      openPopup();
+    });
+  });
+
+  fab?.addEventListener('click', openPopup);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && popup.classList.contains('is-open')) {
+      closePopup(true);
+    }
+  });
+
+  if (isDismissed()) {
+    showFab();
+    return;
+  }
+
+  window.setTimeout(openPopup, AUTO_DELAY_MS);
 }

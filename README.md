@@ -1,6 +1,6 @@
 # Jesse-Joel Nzumafor | Portfolio
 
-A professional portfolio website for Jesse-Joel Nzumafor, Digital Marketing & Strategy Specialist.
+A professional portfolio website for Jesse-Joel Nzumafor, Product Manager & AI Platform Architect.
 
 ## Features
 
