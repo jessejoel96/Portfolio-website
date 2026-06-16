@@ -1,6 +1,10 @@
 # Jesse-Joel Nzumafor | Portfolio
 
-A professional portfolio website for Jesse-Joel Nzumafor, Product Manager & AI Platform Architect.
+Personal site for **Jesse-Joel Nzumafor** — AI Automation Specialist · Founder, [Navari Systems](https://navari.systems).
+
+> I've spent seven years finding where operations break down — now I build the systems that fix them permanently.
+
+Previously: Product Management, SaaS delivery, and operational systems across six industries.
 
 ## Features
 
@@ -49,4 +53,4 @@ Portfolio website/
 
 - **Email**: jnzumafor@gmail.com
 - **Phone**: +237 676 463 196
-- **Location**: Douala, Cameroon
+- **Location**: Cameroon (remote with UK, US, and Canadian businesses)
